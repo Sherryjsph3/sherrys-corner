@@ -12,7 +12,7 @@ const PORT = 3000;
 app.use(express.urlencoded({ extended: false}));
 
 //Configure Mongoose
-const DATABASE_URL = 'mongodb+srv://admin:abc1234@cluster0.z0lhg.mongodb.net/sherrys_corner?retryWrites=true&w=majority' 
+const DATABASE_URL = 'mongodb+srv://admin:jean1234@cluster0.z0lhg.mongodb.net/sherrys-corner?retryWrites=true&w=majority' 
 const db = mongoose.connection;
 
 mongoose.connect(DATABASE_URL, {
