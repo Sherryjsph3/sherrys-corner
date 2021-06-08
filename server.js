@@ -37,7 +37,7 @@ const Products = require('./models/products.js');
 //INDEX
 app.get('/product', (req, res) => {
     Products.find({}, (error, foundProduct) => {
-        res.send('hello world');
+        res.send(foundProduct);
     })
 })
 
