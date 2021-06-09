@@ -11,6 +11,7 @@ const PORT = 3000;
 
 //Mounting our Middleware functions
 app.use(express.urlencoded({ extended: false}));
+app.use(express.static('public'));
 
 const db = mongoose.connection;
 mongoose.connect(process.env.DATABASE_URL, {
@@ -47,31 +48,33 @@ app.get('/product', (req, res) => {
 });
 
 //NEW
-
-
-//DELETE
-app.delete('/product/:id', (req, res) => {
-    Products.findByIdAndDelete(req.params.id, (error, deletedProduct) => {
-		res.send(deletedProduct);
-    })
+app.get('/product/new', (req, res) => {
+    res.render('new.ejs')
 })
 
+//DELETE
+// app.delete('/product/:id', (req, res) => {
+//     Products.findByIdAndDelete(req.params.id, (error, deletedProduct) => {
+// 		res.send(deletedProduct);
+//     })
+// })
+
 //UPDATE
-app.put('/product/:id', (req, res) => {
-    Products.findByIdAndUpdate(
-        req.params.id,
-        req.body, //the new data to update it with
-        {new: true},
-        (error, updatedProduct) => {
-            res.send(updatedProduct);
-        }
-    );
-});
+// app.put('/product/:id', (req, res) => {
+//     Products.findByIdAndUpdate(
+//         req.params.id,
+//         req.body, //the new data to update it with
+//         {new: true},
+//         (error, updatedProduct) => {
+//             res.send(updatedProduct);
+//         }
+//     );
+// });
 
 //CREATE
 app.post('/product', (req, res) => { // .create uses req.body
-    Products.create(req.body, function(error, newProduct){
-        res.send(newProduct);
+    Products.create(req.body, (error, newProduct) => {
+        res.redirect('/product');
     });
 });
 
@@ -80,7 +83,9 @@ app.post('/product', (req, res) => { // .create uses req.body
 //SHOW
 app.get('/product/:id', (req, res) => {
     Products.findById(req.params.id, (error, foundProduct) => {
-        res.send(foundProduct);
+        res.render('show.ejs', {
+            product: foundProduct
+        });
     });
 });
 
