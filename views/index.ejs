@@ -8,16 +8,33 @@
 		<title>Product List</title>
 	</head>
 	<body>
+        <header>
         <nav>
             <a href="/product/new">Add a New Product</a>
         </nav>
-		<h1>Product Index Page</h1>
-		<main>
+    </header>
+        
+		<h1>Sherry's Corner</h1>
+        <br/>
+        <br/>
+        <br/>
+        <p>Incorporates the latest ideas and designs into everyday living. Recognizing that fashion is as much about<br/>the way we live as who we are, Sherry's Corner updates its ranges twice a week,<br/> tapping into contemporary styles and evergreen sensibilities to create the latest aesthetics for interior living. </p>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <main>
+        <div class="row">
+            <div class="column"></div>
+		
 			<% product.forEach(product => { %>
-			<h2><%= product.name %></h2> 
-                <a href="/product/<%= product._id; %>"><img src=<%= product.img %>></a>
+			<h4 class="index-h4"><%= product.name %></h4> 
+            
+                <a href="/product/<%= product._id; %>"><img src=<%= product.img %> style="width:100%"></a>
         
 			<% }) %>
+        </div>
+        </div>
 		</main>
 	</body>
 </html>
