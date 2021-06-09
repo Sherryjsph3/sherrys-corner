@@ -1,21 +1,19 @@
 //Denpendencies
+require('dotenv').config();
 const mongoose = require('mongoose');
 const express = require('express');
-
-//initialize the Express App
 const app = express();
-
+//Perform CRUD on our model
+//require the model in order to perform
+const Products = require('./models/products.js');
 //Create a variable to store our port value
 const PORT = 3000;
 
 //Mounting our Middleware functions
 app.use(express.urlencoded({ extended: false}));
 
-//Configure Mongoose
-const DATABASE_URL = 'mongodb+srv://admin:jean1234@cluster0.z0lhg.mongodb.net/sherrys-corner?retryWrites=true&w=majority' 
 const db = mongoose.connection;
-
-mongoose.connect(DATABASE_URL, {
+mongoose.connect(process.env.DATABASE_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useFindAndModify: false,
@@ -27,19 +25,26 @@ db.on('error', (error) => console.log(error.message + ' is mongodb not running?'
 db.on('connected', () => console.log('monogdb connected'));
 db.on('disconnected', () => console.log('mongodb disconnected'));
 
-//Perform CRUD on our model
-//require the model in order to perform
-const Products = require('./models/products.js');
-
 
 //Set up our routes and controller code
+//SEED 
+const productsSeed = require('./models/productsSeed.js');
+app.get('/product/seed', (req, res) => {
+	Products.deleteMany({}, (error, allProducts) => {});
+
+	Products.create(productsSeed, (error, data) => {
+		res.redirect('/product');
+	});
+});
 
 //INDEX
 app.get('/product', (req, res) => {
-    Products.find({}, (error, foundProduct) => {
-        res.send(foundProduct);
-    })
-})
+    Products.find({}, (error, allProducts) => {
+        res.render('index.ejs', {
+            product: allProducts,
+        });
+    });
+});
 
 //NEW
 
