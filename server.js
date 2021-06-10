@@ -55,20 +55,36 @@ app.get('/product/new', (req, res) => {
 //DELETE
 app.delete('/product/:id', (req, res) => {
     Products.findByIdAndDelete(req.params.id, (error, deletedProduct) => {
-		res.redirect('/product');
+		res.redirect('/product/');
     })
 })
 
 //UPDATE
 app.put('/product/:id', (req, res) => {
-    
+   
     //step 1 -> find theproduct in mongodb and update in with req.body
-    Products.findByIdAndUpdate(req.params.id, req.body, {new: true }, (err, updatedProduct) => {
-    //step 3 -> redirect the user somwhere else
+    Products.findByIdAndUpdate(req.params.id, req.body, (err, updatedProduct) => {
+    //step 2 -> redirect the user somwhere else
     res.redirect(`/product/${req.params.id}`); //redirect to the show page
     } );
     
 });
+
+//UPDATE -- FOR THE BUY BUTTON -- we are updating the qty number of items left in stock
+// app.put('/product/:id', (req, res) => {
+//     //step 1 -> reformat the completed property in req.body
+//     if(req.body.qty < 0) {
+//         req.body.qty -= 1
+//     } else {
+//         document.querySelector('button').style.visibility='hidden'       
+//     }
+//     //step 2 -> find the product in mongodb and update in with req.body
+//     Products.findByIdAndUpdate(req.params.id, req.body, {new: true }, (err, updatedProduct) => {
+//     res.redirect('/product/'); //redirect to the index page after checkout
+//     } );
+    
+// });
+
 
 //CREATE
 app.post('/product', (req, res) => { // .create uses req.body
