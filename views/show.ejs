@@ -18,9 +18,19 @@
         <br/>
 		<h4 class="show-h4"><%= product.description%></h4>
 		<br/>
-		<h3><%= product.price %></h3>
+		<h3>Price: <%= product.price %></h3>
         <br/>
-		<h3><%= product.qty %></h3>
-        <a href="/product/edit">Edit</a>
+		 <h3>Quantity: <%= product.qty %></h3>
+        <br/>
+        <button>Buy</button>
+        <br/>
+        <br/>
+        <a href="/product/<%=product._id %>/edit">Edit</a>
+        <br/>
+        <br/>
+        <form action="/product/?_method=DELETE" method="POST" >
+            <input type="submit" value="Delete">
+        </form>
+        
 	</body>
 </html>

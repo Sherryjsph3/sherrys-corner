@@ -53,23 +53,22 @@ app.get('/product/new', (req, res) => {
 })
 
 //DELETE
-// app.delete('/product/:id', (req, res) => {
-//     Products.findByIdAndDelete(req.params.id, (error, deletedProduct) => {
-// 		res.send(deletedProduct);
-//     })
-// })
+app.delete('/product/:id', (req, res) => {
+    Products.findByIdAndDelete(req.params.id, (error, deletedProduct) => {
+		res.redirect('/product');
+    })
+})
 
 //UPDATE
-// app.put('/product/:id', (req, res) => {
-//     Products.findByIdAndUpdate(
-//         req.params.id,
-//         req.body, //the new data to update it with
-//         {new: true},
-//         (error, updatedProduct) => {
-//             res.send(updatedProduct);
-//         }
-//     );
-// });
+app.put('/product/:id', (req, res) => {
+    
+    //step 1 -> find theproduct in mongodb and update in with req.body
+    Products.findByIdAndUpdate(req.params.id, req.body, {new: true }, (err, updatedProduct) => {
+    //step 3 -> redirect the user somwhere else
+    res.redirect(`/product/${req.params.id}`); //redirect to the show page
+    } );
+    
+});
 
 //CREATE
 app.post('/product', (req, res) => { // .create uses req.body
@@ -79,6 +78,15 @@ app.post('/product', (req, res) => { // .create uses req.body
 });
 
 //EDIT
+app.get('/product/:id/edit', (req, res) => {
+    //step 1 -> we need to find the product we are editing
+    //step 2 -> we need to insert the product into a template -> edit.ejs
+    Products.findById(req.params.id, (error, foundProduct) => {
+        res.render('edit.ejs', {//context object
+            product: foundProduct
+        })
+    })
+    })
 
 //SHOW
 app.get('/product/:id', (req, res) => {
